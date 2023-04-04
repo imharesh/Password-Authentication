@@ -34,17 +34,33 @@ public class IndexModel : AUTHPageModel
         }
 
         //added for passwordless authentication
-        public async Task<IActionResult> OnPostGeneratePasswordlessTokenAsync()
-        {
-            var adminUser = await _userRepository.FindByNormalizedUserNameAsync("admin");
+        //public async Task<IActionResult> OnPostGeneratePasswordlessTokenAsync()
+        //{
+        //    var adminUser = await _userRepository.FindByNormalizedUserNameAsync("admin");
 
-            var token = await UserManager.GenerateUserTokenAsync(adminUser, "PasswordlessLoginProvider",
-            "passwordless-auth");
+        //    var token = await UserManager.GenerateUserTokenAsync(adminUser, "PasswordlessLoginProvider",
+        //    "passwordless-auth");
 
-            PasswordlessLoginUrl = Url.Action("Login", "Passwordless",
-                new { token = token, userId = adminUser.Id.ToString() }, Request.Scheme);
+        //    PasswordlessLoginUrl = Url.Action("Login", "Passwordless",
+        //        new { token = token, userId = adminUser.Id.ToString() }, Request.Scheme);
 
-            return Page();
-        }
- }
+        //    return Page();
+        //}
+    public async Task<IActionResult> OnPostGeneratePasswordlessTokenAsync()
+
+    {
+
+        var currentUser = await UserManager.GetUserAsync(HttpContext.User); 
+        var token = await UserManager.GenerateUserTokenAsync(currentUser, "PasswordlessLoginProvider",
+            "passwordless-auth"); 
+        PasswordlessLoginUrl = Url.Action("Login", "Passwordless",
+
+        new { token = token, userId = currentUser.Id.ToString() }, Request.Scheme); 
+        
+        return Page();
+
+    }
+
+
+}
 
