@@ -37,6 +37,7 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Identity;
 
 namespace AUTH.Web;
 
@@ -93,6 +94,12 @@ public class AUTHWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+
+        context.Services
+            .GetObject<IdentityBuilder>()
+            .AddDefaultTokenProviders()
+            .AddPasswordlessLoginProvider();
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
