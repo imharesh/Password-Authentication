@@ -2,3 +2,8 @@
 @addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI
 @addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bootstrap
 @addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bundling
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.SignalR
+
+@section scripts {
+    <abp-script type="typeof(SignalRBrowserScriptContributor)" />
+}
